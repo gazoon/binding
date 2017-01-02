@@ -2,6 +2,7 @@ package binding
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -107,7 +108,10 @@ func (e Error) Kind() string {
 
 // Error returns this error's message.
 func (e Error) Error() string {
-	return e.Message
+	if len(e.FieldNames) == 0 {
+		return e.Message
+	}
+	return fmt.Sprintf("%s: %s", e.FieldNames[0], e.Message)
 }
 
 const (
